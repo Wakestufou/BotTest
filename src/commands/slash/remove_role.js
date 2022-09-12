@@ -22,11 +22,18 @@ module.exports = {
 
         const choices = [];
 
-        for (let i = 0; i < guild.roles.length; i += 1) {
+        if (!guild) {
             choices.push({
-                name: `${guild.roles[i].name}`,
-                value: `${guild.roles[i].id}`,
+                name: 'There is no role available',
+                value: '-1',
             });
+        } else {
+            for (let i = 0; i < guild.roles.length; i += 1) {
+                choices.push({
+                    name: `${guild.roles[i].name}`,
+                    value: `${guild.roles[i].id}`,
+                });
+            }
         }
 
         if (interaction.isAutocomplete()) {
