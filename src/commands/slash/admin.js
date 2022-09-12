@@ -43,6 +43,11 @@ module.exports = {
                 const db = JSON.parse(fs.readFileSync('./src/utils/db.json'));
                 const guildID = interaction.member.guild.id;
 
+                if (!db[guildID]) {
+                    db[guildID] = {
+                        roles: [],
+                    };
+                }
                 db[guildID].roles.push({
                     name: role.name.toString(),
                     id: role.id.toString(),
@@ -59,22 +64,44 @@ module.exports = {
                 const guildID = interaction.member.guild.id;
                 const db = JSON.parse(fs.readFileSync('./src/utils/db.json'));
 
-                const dbRole = [];
+                if (!db[guildID]) {
+                    await interaction.reply({
+                        content: 'No db',
+                        ephemeral: true,
+                    });
+                } else {
+                    const dbRole = [];
 
-                dbRole.push(
-                    ...db[guildID].roles.filter(
-                        (element) => element.id !== role.id.toString()
-                    )
-                );
+                    dbRole.push(
+                        ...db[guildID].roles.filter(
+                            (element) => element.id !== role.id.toString()
+                        )
+                    );
 
-                db[guildID].roles = dbRole;
+                    db[guildID].roles = dbRole;
 
-                fs.writeFileSync('./src/utils/db.json', JSON.stringify(db));
+                    fs.writeFileSync('./src/utils/db.json', JSON.stringify(db));
 
-                await interaction.reply({
-                    content: 'Role Removed !',
-                    ephemeral: true,
-                });
+                    await interaction.reply({
+                        content: 'Role Removed !',
+                        ephemeral: true,
+                    });
+                }
+            } else if (interaction.options.getSubcommand() === 'list') {
+                const guildID = interaction.member.guild.id;
+                const db = JSON.parse(fs.readFileSync('./src/utils/db.json'));
+
+                if (!db[guildID]) {
+                    await interaction.reply({
+                        content: 'No db',
+                        ephemeral: true,
+                    });
+                } else {
+                    await interaction.reply({
+                        content: JSON.stringify(db[guildID]),
+                        ephemeral: true,
+                    });
+                }
             }
         }
     },
