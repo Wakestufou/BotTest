@@ -87,31 +87,11 @@ const main = async () => {
                 `Successfully reloaded application (/) commands for guild : ${process.env.GUILD_ID_DEV} !`,
                 'START'
             );
-        } else {
-            client.guilds.cache.forEach(async (guild) => {
-                Logger.info(
-                    `Started refreshing application (/) commands for guild : ${process.env.GUILD_ID_DEV}...`,
-                    'START'
-                );
-                await rest.put(
-                    Routes.applicationGuildCommands(
-                        process.env.CLIENT_ID,
-                        guild.id
-                    ),
-                    {
-                        body: commands,
-                    }
-                );
-                Logger.info(
-                    `Successfully reloaded application (/) commands for guild : ${process.env.GUILD_ID_DEV} !`,
-                    'START'
-                );
-            });
         }
 
         client.login(process.env.TOKEN);
     } catch (e) {
-        Logger.fatal('Error when registering (/) commands', e.message, -1);
+        Logger.fatal('Error when registering (/) commands', e, -1);
     }
 };
 
