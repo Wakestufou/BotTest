@@ -63,31 +63,51 @@ const main = async () => {
     try {
         const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
 
-        let GUILD_ID;
-
-        if (process.argv.includes('--DEV')) {
-            GUILD_ID = process.env.GUILD_ID_DEV;
-        } else {
-            GUILD_ID = process.env.GUILD_ID;
-        }
-
         const commands = [
             ...client.commands
                 .get('slash')
                 .map((element) => element.help.toJSON()),
         ];
 
-        Logger.info(`Started refreshing application (/) commands...`, 'START');
-        await rest.put(
-            Routes.applicationGuildCommands(process.env.CLIENT_ID, GUILD_ID),
-            {
-                body: commands,
-            }
-        );
-        Logger.info(
-            `Successfully reloaded application (/) commands !`,
-            'START'
-        );
+        if (process.argv.includes('--DEV')) {
+            Logger.info(
+                `Started refreshing application (/) commands for guild : ${process.env.GUILD_ID_DEV}...`,
+                'START'
+            );
+            await rest.put(
+                Routes.applicationGuildCommands(
+                    process.env.CLIENT_ID,
+                    process.env.GUILD_ID_DEV
+                ),
+                {
+                    body: commands,
+                }
+            );
+            Logger.info(
+                `Successfully reloaded application (/) commands for guild : ${process.env.GUILD_ID_DEV} !`,
+                'START'
+            );
+        } else {
+            client.guilds.cache.forEach(async (guild) => {
+                Logger.info(
+                    `Started refreshing application (/) commands for guild : ${process.env.GUILD_ID_DEV}...`,
+                    'START'
+                );
+                await rest.put(
+                    Routes.applicationGuildCommands(
+                        process.env.CLIENT_ID,
+                        guild.id
+                    ),
+                    {
+                        body: commands,
+                    }
+                );
+                Logger.info(
+                    `Successfully reloaded application (/) commands for guild : ${process.env.GUILD_ID_DEV} !`,
+                    'START'
+                );
+            });
+        }
 
         client.login(process.env.TOKEN);
     } catch (e) {
