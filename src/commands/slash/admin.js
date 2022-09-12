@@ -32,19 +32,50 @@ module.exports = {
                                 .setRequired(true)
                         )
                 )
+                .addSubcommand((subcommand) =>
+                    subcommand.setName('list').setDescription('Show data on db')
+                )
         ),
     async execute(interaction) {
         if (interaction.isCommand()) {
-            const role = interaction.options.getRole('role');
-            const db = JSON.parse(fs.readFileSync('./src/utils/db.json'));
-            const guildID = interaction.member.guild.id;
+            if (interaction.options.getSubcommand() === 'add_role') {
+                const role = interaction.options.getRole('role');
+                const db = JSON.parse(fs.readFileSync('./src/utils/db.json'));
+                const guildID = interaction.member.guild.id;
 
-            db[guildID].roles.push({
-                name: role.name.toString(),
-                id: role.id.toString(),
-            });
+                db[guildID].roles.push({
+                    name: role.name.toString(),
+                    id: role.id.toString(),
+                });
 
-            fs.writeFileSync('./src/utils/db.json', JSON.stringify(db));
+                fs.writeFileSync('./src/utils/db.json', JSON.stringify(db));
+
+                await interaction.reply({
+                    content: 'Role Added !',
+                    ephemeral: true,
+                });
+            } else if (interaction.options.getSubcommand() === 'remove_role') {
+                const role = interaction.options.getRole('role');
+                const guildID = interaction.member.guild.id;
+                const db = JSON.parse(fs.readFileSync('./src/utils/db.json'));
+
+                const dbRole = [];
+
+                dbRole.push(
+                    ...db[guildID].roles.filter(
+                        (element) => element.id !== role.id.toString()
+                    )
+                );
+
+                db[guildID].roles = dbRole;
+
+                fs.writeFileSync('./src/utils/db.json', JSON.stringify(db));
+
+                await interaction.reply({
+                    content: 'Role Removed !',
+                    ephemeral: true,
+                });
+            }
         }
     },
 };
