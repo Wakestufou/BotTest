@@ -1,33 +1,26 @@
 {
-    "232920393": {
+    "937765640058576927": {
         "roles": [
             {
-                "name": "Servzzzeur Dev",
-                "id": "9467027428135600178"
+                "name": "Serveur Dev",
+                "id": "946702748135600178"
             },
-            {
-                "name": "Servzzzzeur Game",
-                "id": "9467028242287379516"
-            }
-        ]
-    },
-    "": {
-        "roles": [
             {
                 "name": "Serveur Game",
                 "id": "946702824287379516"
             },
             {
                 "name": "nouveau rôleaaaaaa",
-                "id": "1018260188383432746"
+                "id": "1018260188383432746",
+                "desciption": "TP 1 du BUT Informatique"
             }
         ]
     },
-    "937765640058576927": {
+    "897181547227119647": {
         "roles": [
             {
-                "name": "Serveur Dev",
-                "id": "946702748135600178"
+                "name": "nouveau rôle",
+                "id": "897181934415904858"
             }
         ]
     }
