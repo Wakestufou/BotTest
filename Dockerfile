@@ -3,10 +3,6 @@ WORKDIR /usr/src/app
 COPY ./package*.json ./
 RUN npm install
 
-FROM node:16.14.0 AS runner
-WORKDIR /usr/src/app
-ENV NODE_ENV=production
-COPY --from=dependencies /usr/src/app/node_modules ./node_modules
-COPY --from=dependencies /usr/src/app/package.json ./package.json
-USER node
+COPY . .
+
 CMD ["node", "src/index.js"]
