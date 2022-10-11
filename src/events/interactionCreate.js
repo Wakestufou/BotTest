@@ -43,6 +43,7 @@ module.exports = {
                     content: 'Error contact a admin !',
                     ephemeral: true,
                 });
+                Logger.error('Error : ', e);
             }
         }
     },
