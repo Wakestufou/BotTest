@@ -219,10 +219,12 @@ export default new Command({
                                         .setStyle(ButtonStyle.Primary)
                                 );
 
-                                description += `> **●** ${el.name} : ${
-                                    el.description === undefined
+                                description += `> **●** ${el.getDataValue(
+                                    'name'
+                                )} : ${
+                                    el.getDataValue('description') === undefined
                                         ? ''
-                                        : el.description
+                                        : el.getDataValue('description')
                                 }\n`;
                                 tab[tab.length - 1].embed.setDescription(
                                     description
