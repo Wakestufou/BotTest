@@ -15,6 +15,6 @@ ENV NODE_ENV=production
 COPY --from=builder /usr/src/app/node_modules ./node_modules
 COPY --from=builder /usr/src/app/package.json ./package.json
 COPY --from=builder /usr/src/app/dist ./dist
-COPY ./db ./
+COPY --from=builder /usr/src/app/db ./db
 USER node
-CMD ["node", "dist/index.js"]
+CMD ["node", "dist/index.js", "--CLEAR"]
